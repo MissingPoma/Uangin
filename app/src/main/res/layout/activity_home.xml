@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightLavender"
+    tools:context=".HomeActivity">
+
+    <!-- Top Navigation Bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/home"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/darkBlue"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <!-- Tab Layout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home"
+        android:background="@color/darkBlue"
+        app:tabTextAppearance="@style/TabTextAppearance"
+        app:tabIndicatorColor="@color/white"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@android:color/white">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabHari"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hari" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabMinggu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minggu" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabBulan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bulan" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabTahun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tahun" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- Content Area -->
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_below="@id/tabLayout" />
+
+    <!-- Bottom Navigation Bar -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav"
+        android:background="@drawable/bottom_background"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:elevation="20dp"/>
+
+</RelativeLayout>
