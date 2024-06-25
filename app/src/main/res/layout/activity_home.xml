@@ -9,18 +9,71 @@
 
     <!-- Top Navigation Bar -->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/home"
+        android:id="@+id/toolbarHome"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/darkBlue"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <!-- Left Arrow Button -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:gravity="center_vertical">
+
+            <!-- Left Arrow Button -->
+            <ImageButton
+                android:id="@+id/leftArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/vector_left"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="10dp" />
+
+            <!-- Toolbar Title (Optional, can be removed or adjusted as needed) -->
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:padding="10dp" />
+
+            <!-- Right Arrow Button -->
+            <ImageButton
+                android:id="@+id/rightArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/vector_right"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="10dp" />
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/bottomNavigationView"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/darkBlue"
+        app:tint="@android:color/white" />
 
     <!-- Tab Layout -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/home"
+        android:layout_below="@id/toolbarHome"
         android:background="@color/darkBlue"
         app:tabTextAppearance="@style/TabTextAppearance"
         app:tabIndicatorColor="@color/white"
@@ -52,11 +105,132 @@
             android:text="Tahun" />
     </com.google.android.material.tabs.TabLayout>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/financeInfoCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabLayout"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="0dp"
+        android:layout_marginBottom="10dp"> <!-- Adjust margin as needed -->
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/financeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@android:color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Pemasukan -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pemasukan"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_regular"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/textPemasukan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 0"
+                        android:fontFamily="@font/inter_medium"
+                        android:textColor="#25C595"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <!-- Pengeluaran -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pengeluaran"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_regular"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/textPengeluaran"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 0"
+                        android:fontFamily="@font/inter_medium"
+                        android:textColor="#FD2A2A"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <!-- Saldo -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Saldo"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_regular"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/textSaldo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 0"
+                        android:fontFamily="@font/inter_medium"
+                        android:textColor="#777272"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/catatan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/financeInfoCard"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="0dp"
+        android:layout_marginBottom="10dp"> <!-- Adjust margin as needed -->
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/isiCatatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    </androidx.cardview.widget.CardView>
     <!-- Content Area -->
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_below="@id/tabLayout" />
 
@@ -68,10 +242,7 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav"
         android:background="@drawable/bottom_background"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:elevation="20dp"/>
+        android:elevation="20dp"
+/>
 
 </RelativeLayout>

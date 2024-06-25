@@ -12,7 +12,7 @@
         android:icon="@drawable/chart"
         android:title="Chart"/>
 
-    <item android:id="@+id/setttingIcon"
+    <item android:id="@+id/settingIcon"
         android:icon="@drawable/setting"
         android:title="Setting"/>
 </menu>
