@@ -257,6 +257,7 @@
 
                         <TextView
                             android:id="@+id/dateText"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_bold"
@@ -330,6 +331,7 @@
                 </LinearLayout>
 
                 <!-- Divider Line -->
+
                 <View
                     android:id="@+id/dividerLine"
                     android:layout_width="370dp"
@@ -339,7 +341,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dateDayLayout" />
-
                 <!-- Transaction List -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/transactionList"
@@ -434,6 +435,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
     </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

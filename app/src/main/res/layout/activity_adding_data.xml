@@ -110,12 +110,21 @@
         android:layout_margin="16dp"
         android:paddingBottom="10dp"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:hint="@string/pilih_kategori">
+        android:hint="Pilih atau Tambahkan Kategori Baru">
 
         <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            android:inputType="text"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:completionThreshold="1"
+            android:dropDownHeight="wrap_content"
+            android:dropDownVerticalOffset="4dp"
+            android:dropDownHorizontalOffset="4dp"
+            android:drawablePadding="8dp"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
