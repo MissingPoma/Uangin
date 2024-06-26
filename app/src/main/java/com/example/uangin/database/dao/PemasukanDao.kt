@@ -1,4 +1,4 @@
-package com.example.uangin.database.da
+package com.example.uangin.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
