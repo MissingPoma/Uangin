@@ -58,5 +58,4 @@ class AddActivity : AppCompatActivity() {
         return monthNames[month]
     }
 
-
 }
