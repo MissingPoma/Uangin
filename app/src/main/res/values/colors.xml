@@ -4,4 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="darkBlue">#3A4AA1</color>
     <color name="lightLavender">#F1F3FF</color>
+    <color name="greenIncome">#25C595</color>
+    <color name="redOutcome">#FD2A2A</color>
+
 </resources>
