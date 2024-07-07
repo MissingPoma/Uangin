@@ -5,15 +5,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.example.uangin.database.AppDatabase
+import com.example.uangin.database.dao.KategoriDao
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class AddActivity : AppCompatActivity() {
 
+    private lateinit var db: AppDatabase
+    private lateinit var categoryDao: KategoriDao
     private lateinit var tanggalTextView: TextView
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var catatanEditText: TextInputEditText
@@ -36,20 +46,39 @@ class AddActivity : AppCompatActivity() {
             showDatePickerDialog()
         }
 
-        val items = listOf("Makanan", "Minuman", "Gaji", "Lain-Lainnya", "Buku")
-        val adapter = ArrayAdapter(this, R.layout.dropdown_item, items)
-        autoCompleteTextView = findViewById(R.id.itemKategori)
-        autoCompleteTextView.setAdapter(adapter)
-
         catatanEditText = findViewById(R.id.catatanEditText)
         jumlahEditText = findViewById(R.id.jumlahEditText)
 
-     /*   val saveButton = findViewById<Button>(R.id.saveButton)
-        saveButton.setOnClickListener {
-            saveData()
-        } */
+        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+        categoryDao = db.kategoriDao()
+
+        val textInputLayout: TextInputLayout = findViewById(R.id.pilihKategori)
+        autoCompleteTextView = findViewById(R.id.itemKategori)
+
+        lifecycleScope.launch {
+            val categories = withContext(Dispatchers.IO) {
+                val dbCategories = categoryDao.getAll()
+                dbCategories.map { it.namaKategori } + "Add Category"
+            }
+
+            val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categories)
+            autoCompleteTextView.setAdapter(adapter)
+
+            autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+                if (position == categories.size - 1) {
+                    navigateToAddCategoryFragment()
+                } else {
+                    val selectedCategory = categories[position]
+                    Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
+    private fun navigateToAddCategoryFragment() {
+        val intent = Intent(this, AddActivity::class.java)
+        startActivity(intent)
+    }
 
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
@@ -76,6 +105,4 @@ class AddActivity : AppCompatActivity() {
         )
         return monthNames[month]
     }
-
-
 }

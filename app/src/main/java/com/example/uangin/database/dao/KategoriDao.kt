@@ -22,4 +22,5 @@ interface KategoriDao {
 
     @Delete
     fun delete(kategori: Kategori)
+
 }
