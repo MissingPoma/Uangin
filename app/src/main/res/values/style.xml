@@ -6,6 +6,7 @@
         <item name="android:textAlignment">gravity</item>
     </style>
 
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
         <item name="colorPrimary">@color/darkBlue</item>
@@ -33,6 +34,7 @@
         <item name="boxCornerRadiusBottomStart">12dp</item>
         <item name="android:layout_width">320dp</item> <!-- Custom width -->
         <item name="android:layout_height">wrap_content</item> <!-- Custom height -->
+        <item name="boxStrokeColor">@color/darkBlue</item>
     </style>
 
 
