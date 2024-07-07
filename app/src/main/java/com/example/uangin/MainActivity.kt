@@ -1,21 +1,44 @@
 package com.example.uangin
 
 import android.os.Bundle
-import android.content.Intent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Handler
+import android.content.Intent
+import android.app.ActivityOptions
+import androidx.core.view.WindowCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.widget.ImageButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
 
 class MainActivity : AppCompatActivity() {
 
-    private val SPLASH_TIME_OUT: Long = 1000 // Durasi splash screen dalam milidetik (3 detik)
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        Handler().postDelayed({
-            startActivity(Intent(this, HomeActivity::class.java))
+
+        val fab: FloatingActionButton = findViewById(R.id.fab)
+        fab.setOnClickListener {
+            val intent = Intent(this@MainActivity, AddActivity::class.java)
+            startActivity(intent)
+        }
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.homeIcon
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            val intent = when (item.itemId) {
+                R.id.settingIcon -> Intent(this, SettingActivity::class.java)
+                R.id.searchIcon -> Intent(this, SearchActivity::class.java)
+                R.id.chartIcon -> Intent(this, ChartActivity::class.java)
+                else -> return@setOnItemSelectedListener true // Already on HomeActivity
+            }
+
+            startActivity(intent)
             finish()
-        }, SPLASH_TIME_OUT)
+            true
+        }
     }
-
-
 }

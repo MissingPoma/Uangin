@@ -398,5 +398,5 @@
         app:itemTextAppearanceActive="@style/BottomNavigationViewTextStyle"
         android:background="@drawable/bottom_background"
         android:elevation="20dp"
-        />
+        app:labelVisibilityMode="unlabeled"/>
 </RelativeLayout>

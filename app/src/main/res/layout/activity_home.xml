@@ -221,16 +221,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/financeInfoCard"
-        android:layout_weight="1" >
+        android:layout_marginTop="1dp"
+        android:layout_weight="1">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/catatan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="4dp"
+            android:layout_marginBottom="10dp"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="0dp"
-            android:layout_marginBottom="10dp"> <!-- Adjust margin as needed -->
+            app:cardElevation="4dp"> <!-- Adjust margin as needed -->
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -257,11 +258,11 @@
 
                         <TextView
                             android:id="@+id/dateText"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_bold"
                             android:text="30"
+                            android:textColor="@color/black"
                             android:textSize="20dp" />
 
                     </LinearLayout>
@@ -297,6 +298,7 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/incomeExpenseLayout"
                         android:layout_width="wrap_content"
@@ -313,8 +315,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="20dp"
-                            android:text="Rp.200.000"
                             android:fontFamily="@font/inter_regular"
+                            android:text="Rp.200.000"
                             android:textColor="@color/greenIncome"
                             android:textSize="14sp" />
 
@@ -346,8 +348,8 @@
                     android:id="@+id/transactionList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginTop="10dp"
+                    android:orientation="vertical"
                     app:layout_constraintTop_toBottomOf="@id/dividerLine">
 
                     <!-- Penjualan Saham -->
@@ -447,6 +449,7 @@
         app:itemTextAppearanceActive="@style/BottomNavigationViewTextStyle"
         android:background="@drawable/bottom_background"
         android:elevation="20dp"
-/>
+
+        app:labelVisibilityMode="unlabeled"/>
 
 </RelativeLayout>
