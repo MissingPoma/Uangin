@@ -9,18 +9,23 @@ import com.example.uangin.database.entity.Kategori
 @Dao
 interface KategoriDao {
     @Query("SELECT * FROM kategori")
-    fun getAll(): List<Kategori>
-
-    @Query("SELECT * FROM kategori WHERE id IN (:kategoriIds)")
-    fun loadAllByIds(kategoriIds: IntArray): List<Kategori>
-
-    @Query("SELECT * FROM kategori WHERE namaKategori LIKE :nama LIMIT 1")
-    fun findByName(nama: String): Kategori
+    suspend fun getAll(): List<Kategori>
 
     @Insert
-    fun insertAll(vararg kategori: Kategori)
+    suspend fun insert(kategori: Kategori)
+
+    @Query("SELECT * FROM kategori WHERE id IN (:kategoriIds)")
+    suspend fun loadAllByIds(kategoriIds: IntArray): List<Kategori>
+
+    @Query("SELECT * FROM kategori WHERE namaKategori LIKE :nama LIMIT 1")
+    suspend fun findByName(nama: String): Kategori?
+
+    @Insert
+    suspend fun insertAll(vararg kategori: Kategori)
+
+    @Query("DELETE FROM kategori")
+    suspend fun deleteAll()
 
     @Delete
-    fun delete(kategori: Kategori)
-
+    suspend fun delete(kategori: Kategori)
 }

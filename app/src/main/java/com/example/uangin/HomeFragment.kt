@@ -21,7 +21,15 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).showFab() // Menampilkan FAB saat fragment aktif
+    }
 
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).hideFab() // Menyembunyikan FAB saat fragment tidak aktif
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

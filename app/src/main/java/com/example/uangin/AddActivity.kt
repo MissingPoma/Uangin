@@ -1,29 +1,25 @@
 package com.example.uangin
 
 import android.app.DatePickerDialog
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
-import com.example.uangin.MainActivity
-import com.example.uangin.R
-import com.example.uangin.SettingActivity
 import com.example.uangin.database.AppDatabase
 import com.example.uangin.database.dao.KategoriDao
+import com.example.uangin.database.entity.Kategori
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 import java.util.*
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AddActivity : AppCompatActivity() {
 
@@ -54,35 +50,39 @@ class AddActivity : AppCompatActivity() {
         catatanEditText = findViewById(R.id.catatanEditText)
         jumlahEditText = findViewById(R.id.jumlahEditText)
 
-        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+
+        db = AppDatabase.getDatabase(applicationContext)
         categoryDao = db.kategoriDao()
 
-        val textInputLayout: TextInputLayout = findViewById(R.id.pilihKategori)
         autoCompleteTextView = findViewById(R.id.itemKategori)
 
         lifecycleScope.launch {
             val categories = withContext(Dispatchers.IO) {
-                val dbCategories = categoryDao.getAll()
-                dbCategories.map { it.namaKategori } + "Add Category"
+                categoryDao.getAll().map { it.namaKategori }
             }
 
-            val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categories)
-            autoCompleteTextView.setAdapter(adapter)
+            if (categories.isEmpty()) {
+                // Jika tidak ada kategori ditemukan, tambahkan kategori default ke database
+                categoryDao.insertAll(
+                    Kategori(namaKategori = "Makanan"),
+                    Kategori(namaKategori = "Transportasi"),
+                    Kategori(namaKategori = "Belanja")
+                    // Tambahkan kategori lainnya sesuai kebutuhan
+                )
+                // Setelah menambahkan kategori default, ambil kembali semua kategori
+                val updatedCategories = categoryDao.getAll().map { it.namaKategori }
+                val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, updatedCategories)
+                autoCompleteTextView.setAdapter(adapter)
+            } else {
+                val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categories)
+                autoCompleteTextView.setAdapter(adapter)
+            }
 
             autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
-                if (position == categories.size - 1) {
-                    navigateToAddCategoryFragment()
-                } else {
-                    val selectedCategory = categories[position]
-                    Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
-                }
+                val selectedCategory = categories[position]
+                Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun navigateToAddCategoryFragment() {
-        val intent = Intent(this, SettingActivity::class.java)
-        startActivity(intent)
     }
 
     private fun showDatePickerDialog() {
@@ -111,3 +111,4 @@ class AddActivity : AppCompatActivity() {
         return monthNames[month]
     }
 }
+

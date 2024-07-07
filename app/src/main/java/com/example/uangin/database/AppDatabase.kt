@@ -10,6 +10,9 @@ import com.example.uangin.database.dao.PengeluaranDao
 import com.example.uangin.database.entity.Kategori
 import com.example.uangin.database.entity.Pemasukan
 import com.example.uangin.database.entity.Pengeluaran
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Database(entities = [Pemasukan::class, Pengeluaran::class, Kategori::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
@@ -19,16 +22,36 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var instance: AppDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase =
-            instance ?: synchronized(this) {
-                instance ?: buildDatabase(context).also { instance = it }
+        fun getDatabase(context: Context): AppDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "app-database"
+                ).build()
+                INSTANCE = instance
+                instance
             }
+        }
+    }
 
-        private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context, AppDatabase::class.java, "app-database")
-                .fallbackToDestructiveMigration()
-                .build()
+    init {
+        // Inisialisasi database dengan data default
+        GlobalScope.launch(Dispatchers.IO) {
+            val dao = INSTANCE?.kategoriDao()
+            dao?.let { kategoriDao ->
+                if (kategoriDao.getAll().isEmpty()) {
+                    kategoriDao.insertAll(
+                        Kategori(namaKategori = "Makanan"),
+                        Kategori(namaKategori = "Transportasi"),
+                        Kategori(namaKategori = "Belanja")
+                        // Tambahkan kategori lainnya sesuai kebutuhan
+                    )
+                }
+            }
+        }
     }
 }
+
