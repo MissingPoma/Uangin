@@ -152,16 +152,31 @@ class AddActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            val pengeluaran = Pengeluaran(
-                kategori = kategori,
-                jumlah = jumlah,
-                catatan = catatan,
-                tanggal = tanggal
-            )
-            withContext(Dispatchers.IO) {
-                pengeluaranDao.insertAll(pengeluaran)
+            if (radioPemasukan.isChecked) {
+                val pemasukan = Pemasukan(
+                    kategori = kategori,
+                    jumlah = jumlah,
+                    catatan = catatan,
+                    tanggal = tanggal
+                )
+                withContext(Dispatchers.IO) {
+                    pemasukanDao.insertAll(pemasukan)
+                }
+                Toast.makeText(this@AddActivity, "Pemasukan saved successfully", Toast.LENGTH_SHORT).show()
+            } else if (radioPengeluaran.isChecked) {
+                val pengeluaran = Pengeluaran(
+                    kategori = kategori,
+                    jumlah = jumlah,
+                    catatan = catatan,
+                    tanggal = tanggal
+                )
+                withContext(Dispatchers.IO) {
+                    pengeluaranDao.insertAll(pengeluaran)
+                }
+                Toast.makeText(this@AddActivity, "Pengeluaran saved successfully", Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(this@AddActivity, "Data saved successfully", Toast.LENGTH_SHORT).show()
         }
     }
+
+
 }
