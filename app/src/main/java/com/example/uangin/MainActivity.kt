@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.app.ActivityOptions
+import androidx.fragment.app.Fragment
 import androidx.core.view.WindowCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.widget.ImageButton
@@ -16,29 +17,33 @@ import androidx.core.view.WindowInsetsCompat
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, AddActivity::class.java)
             startActivity(intent)
         }
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.homeIcon
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            val intent = when (item.itemId) {
-                R.id.settingIcon -> Intent(this, SettingActivity::class.java)
-                R.id.searchIcon -> Intent(this, SearchActivity::class.java)
-                R.id.chartIcon -> Intent(this, ChartActivity::class.java)
-                else -> return@setOnItemSelectedListener true // Already on HomeActivity
-            }
+        val homeFragment = HomeFragment()
+        val settingFragment = SettingFragment()
 
-            startActivity(intent)
-            finish()
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        replaceFragment(homeFragment)
+
+        bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.homeIcon -> replaceFragment(homeFragment)
+                R.id.settingIcon -> replaceFragment(settingFragment)
+            }
             true
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        if(fragment != null){
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frame_layout, fragment)
+            transaction.commit()
         }
     }
 }
