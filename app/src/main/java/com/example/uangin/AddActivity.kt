@@ -3,16 +3,21 @@ package com.example.uangin
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.text.SimpleDateFormat
+import com.google.android.material.textfield.TextInputEditText
 import java.util.*
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AddActivity : AppCompatActivity() {
 
     private lateinit var tanggalTextView: TextView
+    private lateinit var autoCompleteTextView: AutoCompleteTextView
+    private lateinit var catatanEditText: TextInputEditText
+    private lateinit var jumlahEditText: TextInputEditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +35,21 @@ class AddActivity : AppCompatActivity() {
         calendarButton.setOnClickListener {
             showDatePickerDialog()
         }
+
+        val items = listOf("Makanan", "Minuman", "Gaji", "Lain-Lainnya", "Buku")
+        val adapter = ArrayAdapter(this, R.layout.dropdown_item, items)
+        autoCompleteTextView = findViewById(R.id.itemKategori)
+        autoCompleteTextView.setAdapter(adapter)
+
+        catatanEditText = findViewById(R.id.catatanEditText)
+        jumlahEditText = findViewById(R.id.jumlahEditText)
+
+     /*   val saveButton = findViewById<Button>(R.id.saveButton)
+        saveButton.setOnClickListener {
+            saveData()
+        } */
     }
+
 
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
@@ -57,5 +76,6 @@ class AddActivity : AppCompatActivity() {
         )
         return monthNames[month]
     }
+
 
 }

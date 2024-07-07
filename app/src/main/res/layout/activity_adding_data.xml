@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -61,74 +62,66 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-<LinearLayout
-    android:id="@+id/linearlayout1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:layout_below="@id/toolbarHome" >
-
-    <RadioGroup
-        android:id="@+id/radioGroupType"
+    <LinearLayout
+        android:id="@+id/linearlayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="16dp"
-        >
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_below="@id/toolbarHome" >
 
-        <RadioButton
-            android:id="@+id/radioButtonIncome"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/pemasukan_background"
-            android:backgroundTint="@color/greenIncome"
-            android:checked="true"
-            android:text="Pemasukan"
-            android:textAlignment="center"
-            android:textColor="@android:color/white" />
-
-        <RadioButton
-            android:id="@+id/radioButtonOutcome"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:text="Pemasukan"
-            android:textAlignment="center"
-            android:background="@drawable/pengeluaran_background"
-            android:textColor="@android:color/white" />
-
-    </RadioGroup>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="360dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/pilihKategori"
-        android:layout_below="@id/radioGroupType"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:paddingBottom="10dp"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:hint="Pilih atau Tambahkan Kategori Baru">
-
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
+        <RadioGroup
+            android:id="@+id/radioGroupType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLines="1"
-            android:imeOptions="actionDone"
-            android:completionThreshold="1"
-            android:dropDownHeight="wrap_content"
-            android:dropDownVerticalOffset="4dp"
-            android:dropDownHorizontalOffset="4dp"
-            android:drawablePadding="8dp"
-            />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="16dp"
+            >
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <RadioButton
+                android:id="@+id/radioButtonIncome"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/pemasukan_background"
+                android:backgroundTint="@color/greenIncome"
+                android:checked="true"
+                android:text="Pemasukan"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
 
-</LinearLayout>
+            <RadioButton
+                android:id="@+id/radioButtonOutcome"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:text="Pemasukan"
+                android:textAlignment="center"
+                android:background="@drawable/pengeluaran_background"
+                android:textColor="@android:color/white" />
+
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="360dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/pilihKategori"
+            android:layout_below="@id/radioGroupType"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingBottom="10dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:hint="@string/pilih_kategori">
+
+            <AutoCompleteTextView
+                android:id="@+id/itemKategori"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
     <!-- Radio Group for Income/Expense -->
     <!-- LinearLayout di bawah TextInputLayout -->
     <LinearLayout
@@ -149,12 +142,12 @@
             android:layout_weight="1"
             android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jumlah"
-                    android:textSize="17sp"
-                    android:fontFamily="@font/inter_semibold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jumlah"
+                android:textSize="17sp"
+                android:fontFamily="@font/inter_semibold"/>
 
         </LinearLayout>
         <LinearLayout
@@ -206,13 +199,13 @@
             app:startIconTint="@android:color/black"
             android:layout_gravity="center_horizontal">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/catatanEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:lines="3" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/catatanEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:lines="3" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
