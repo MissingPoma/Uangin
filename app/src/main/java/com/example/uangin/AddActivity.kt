@@ -11,7 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
-import com.example.uangin.HomeActivity
+import com.example.uangin.MainActivity
 import com.example.uangin.R
 import com.example.uangin.SettingActivity
 import com.example.uangin.database.AppDatabase
