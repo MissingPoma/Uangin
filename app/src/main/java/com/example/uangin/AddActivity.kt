@@ -78,11 +78,25 @@ class AddActivity : AppCompatActivity() {
                 autoCompleteTextView.setAdapter(adapter)
             }
 
+            val categoriesWithAddOption = categories.toMutableList()
+            categoriesWithAddOption.add("Add Category")
+
+            val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categoriesWithAddOption)
+            autoCompleteTextView.setAdapter(adapter)
+
             autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
-                val selectedCategory = categories[position]
-                Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
+                val selectedCategory = categoriesWithAddOption[position]
+                if (selectedCategory == "Add Category") {
+                    navigateToAddCategoryFragment()
+                } else {
+                    Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+    private fun navigateToAddCategoryFragment() {
+        val intent = Intent(this, SettingActivity::class.java)
+        startActivity(intent)
     }
 
     private fun showDatePickerDialog() {

@@ -37,21 +37,5 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    init {
-        // Inisialisasi database dengan data default
-        GlobalScope.launch(Dispatchers.IO) {
-            val dao = INSTANCE?.kategoriDao()
-            dao?.let { kategoriDao ->
-                if (kategoriDao.getAll().isEmpty()) {
-                    kategoriDao.insertAll(
-                        Kategori(namaKategori = "Makanan"),
-                        Kategori(namaKategori = "Transportasi"),
-                        Kategori(namaKategori = "Belanja")
-                        // Tambahkan kategori lainnya sesuai kebutuhan
-                    )
-                }
-            }
-        }
-    }
 }
 
