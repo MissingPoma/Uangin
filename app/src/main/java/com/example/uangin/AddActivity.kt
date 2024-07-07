@@ -54,6 +54,13 @@ class AddActivity : AppCompatActivity() {
         radioPemasukan = findViewById(R.id.radioButtonIncome)
         radioPengeluaran = findViewById(R.id.radioButtonOutcome)
 
+        // Set default date
+        val currentDate = Calendar.getInstance()
+        val dayOfMonth = currentDate.get(Calendar.DAY_OF_MONTH)
+        val monthOfYear = currentDate.get(Calendar.MONTH)
+        val year = currentDate.get(Calendar.YEAR)
+        tanggalTextView.text = "$dayOfMonth ${getMonthName(monthOfYear)} $year"
+
         // Calendar Button Listener
         calendarButton.setOnClickListener {
             showDatePickerDialog()
@@ -73,23 +80,19 @@ class AddActivity : AppCompatActivity() {
                 categoryDao.getAll().map { it.namaKategori }
             }
 
-            if (categories.isEmpty()) {
-                categoryDao.insertAll(
-                    Kategori(namaKategori = "Makanan"),
-                    Kategori(namaKategori = "Transportasi"),
-                    Kategori(namaKategori = "Belanja")
-                )
-                val updatedCategories = categoryDao.getAll().map { it.namaKategori }
-                val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, updatedCategories)
-                autoCompleteTextView.setAdapter(adapter)
-            } else {
-                val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categories)
-                autoCompleteTextView.setAdapter(adapter)
-            }
+            val categoriesWithAddOption = categories.toMutableList()
+            categoriesWithAddOption.add("Add Category")
 
-            autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-                val selectedCategory = categories[position]
-                Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
+            val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categoriesWithAddOption)
+            autoCompleteTextView.setAdapter(adapter)
+
+            autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+                val selectedCategory = categoriesWithAddOption[position]
+                if (selectedCategory == "Add Category") {
+                    navigateToAddCategoryFragment()
+                } else {
+                    Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -98,6 +101,11 @@ class AddActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             saveData()
         }
+    }
+
+    private fun navigateToAddCategoryFragment() {
+        val intent = Intent(this, SettingActivity::class.java)
+        startActivity(intent)
     }
 
     private fun showDatePickerDialog() {
@@ -128,29 +136,26 @@ class AddActivity : AppCompatActivity() {
 
     private fun saveData() {
         val kategori = autoCompleteTextView.text.toString()
-        val catatan = catatanEditText.text.toString()
         val jumlah = jumlahEditText.text.toString().toDoubleOrNull()
+        val catatan = catatanEditText.text.toString()
         val tanggal = tanggalTextView.text.toString()
 
-        if (kategori.isBlank() || catatan.isBlank() || jumlah == null || tanggal.isBlank()) {
-            Toast.makeText(this, "Mohon isi semua data", Toast.LENGTH_SHORT).show()
+        if (kategori.isEmpty() || jumlah == null || catatan.isEmpty() || tanggal.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
         lifecycleScope.launch {
+            val pengeluaran = Pengeluaran(
+                kategori = kategori,
+                jumlah = jumlah,
+                catatan = catatan,
+                tanggal = tanggal
+            )
             withContext(Dispatchers.IO) {
-                if (radioPemasukan.isChecked) {
-                    val pemasukan = Pemasukan(kategori = kategori, jumlah = jumlah, catatan = catatan, tanggal = tanggal)
-                    pemasukanDao.insertAll(pemasukan)
-                } else if (radioPengeluaran.isChecked) {
-                    val pengeluaran = Pengeluaran(kategori = kategori, jumlah = jumlah, catatan = catatan, tanggal = tanggal)
-                    pengeluaranDao.insertAll(pengeluaran)
-                }
+                pengeluaranDao.insertAll(pengeluaran)
             }
-            withContext(Dispatchers.Main) {
-                Toast.makeText(this@AddActivity, "Data berhasil disimpan", Toast.LENGTH_SHORT).show()
-                finish()
-            }
+            Toast.makeText(this@AddActivity, "Data saved successfully", Toast.LENGTH_SHORT).show()
         }
     }
 }
