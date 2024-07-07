@@ -106,7 +106,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
-            android:paddingBottom="10dp"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:hint="@string/pilih_kategori">
 
@@ -153,7 +152,7 @@
             android:layout_height="wrap_content"
             android:paddingEnd="20dp">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/jumlahEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -1,10 +1,12 @@
 package com.example.uangin.database.dao
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.uangin.database.entity.Pengeluaran
 
+@Dao
 interface PengeluaranDao {
     @Query("SELECT * FROM pengeluaran")
     fun getAll(): List<Pengeluaran>

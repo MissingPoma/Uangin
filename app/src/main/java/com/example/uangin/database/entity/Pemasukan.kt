@@ -3,7 +3,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "Pemasukan")
 data class Pemasukan(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = "kategori") val kategori: String?,

@@ -1,16 +1,19 @@
 package com.example.uangin
 
 import android.app.DatePickerDialog
-import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.content.Intent
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import com.example.uangin.HomeActivity
+import com.example.uangin.R
+import com.example.uangin.SettingActivity
 import com.example.uangin.database.AppDatabase
 import com.example.uangin.database.dao.KategoriDao
 import com.google.android.material.textfield.TextInputEditText
@@ -76,7 +79,7 @@ class AddActivity : AppCompatActivity() {
     }
 
     private fun navigateToAddCategoryFragment() {
-        val intent = Intent(this, AddActivity::class.java)
+        val intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
     }
 

@@ -14,7 +14,7 @@ interface KategoriDao {
     @Query("SELECT * FROM kategori WHERE id IN (:kategoriIds)")
     fun loadAllByIds(kategoriIds: IntArray): List<Kategori>
 
-    @Query("SELECT * FROM kategori WHERE nama LIKE :nama LIMIT 1")
+    @Query("SELECT * FROM kategori WHERE namaKategori LIKE :nama LIMIT 1")
     fun findByName(nama: String): Kategori
 
     @Insert
