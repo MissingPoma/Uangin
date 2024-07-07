@@ -95,8 +95,14 @@ class AddActivity : AppCompatActivity() {
         }
     }
     private fun navigateToAddCategoryFragment() {
-        val intent = Intent(this, SettingActivity::class.java)
-        startActivity(intent)
+        // Buat instance dari AddNewCategoryFragment
+        val fragment = AddingNewCategoryFragment()
+
+        // Menggunakan supportFragmentManager untuk memulai transaksi fragment
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment) // Menempatkan fragment di dalam fragment_container
+            .addToBackStack(null) // Agar fragment bisa dikembalikan jika diperlukan
+            .commit()
     }
 
     private fun showDatePickerDialog() {
