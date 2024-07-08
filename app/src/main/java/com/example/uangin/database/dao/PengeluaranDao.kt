@@ -17,6 +17,9 @@ interface PengeluaranDao {
     @Query("SELECT * FROM pengeluaran WHERE kategori LIKE :kategori LIMIT 1")
     fun findByKategori(kategori: String): Pengeluaran
 
+    @Query("DELETE FROM pengeluaran")
+    suspend fun deleteAll()
+
     @Insert
     fun insertAll(vararg pengeluaran: Pengeluaran)
 

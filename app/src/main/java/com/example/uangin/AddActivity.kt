@@ -80,6 +80,23 @@ class AddActivity : AppCompatActivity() {
                 categoryDao.getAll().map { it.namaKategori }
             }
 
+            if (categories.isEmpty()) {
+                // Jika tidak ada kategori ditemukan, tambahkan kategori default ke database
+                categoryDao.insertAll(
+                    Kategori(namaKategori = "Makanan"),
+                    Kategori(namaKategori = "Transportasi"),
+                    Kategori(namaKategori = "Belanja")
+                    // Tambahkan kategori lainnya sesuai kebutuhan
+                )
+                // Setelah menambahkan kategori default, ambil kembali semua kategori
+                val updatedCategories = categoryDao.getAll().map { it.namaKategori }
+                val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, updatedCategories)
+                autoCompleteTextView.setAdapter(adapter)
+            } else {
+                val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categories)
+                autoCompleteTextView.setAdapter(adapter)
+            }
+
             val categoriesWithAddOption = categories.toMutableList()
             categoriesWithAddOption.add("Add Category")
 
@@ -91,7 +108,7 @@ class AddActivity : AppCompatActivity() {
                 if (selectedCategory == "Add Category") {
                     navigateToAddCategoryFragment()
                 } else {
-                    Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "$selectedCategory", Toast.LENGTH_SHORT).show()
                 }
             }
         }
