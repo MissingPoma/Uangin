@@ -23,4 +23,7 @@ interface PemasukanDao {
 
     @Delete
     fun delete(pemasukan: Pemasukan)
+
+    @Query("SELECT * FROM pemasukan ORDER BY tanggal DESC")
+    fun getAllOrderedByDate(): List<Pemasukan>
 }

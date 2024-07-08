@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.example.uangin.database.AppDatabase
 import com.example.uangin.database.dao.KategoriDao
 import com.example.uangin.database.dao.PemasukanDao
@@ -75,24 +74,14 @@ class AddActivity : AppCompatActivity() {
         autoCompleteTextView = findViewById(R.id.itemKategori)
 
         // Populate Categories in AutoCompleteTextView
-        lifecycleScope.launch {
-            val categories = withContext(Dispatchers.IO) {
-                categoryDao.getAll().map { it.namaKategori }
-            }
+        updateCategoryDropdown()
 
-            val categoriesWithAddOption = categories.toMutableList()
-            categoriesWithAddOption.add("Add Category")
-
-            val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categoriesWithAddOption)
-            autoCompleteTextView.setAdapter(adapter)
-
-            autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
-                val selectedCategory = categoriesWithAddOption[position]
-                if (selectedCategory == "Add Category") {
-                    navigateToAddCategoryFragment()
-                } else {
-                    Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
-                }
+        autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+            val selectedCategory = parent.getItemAtPosition(position) as String
+            if (selectedCategory == "Add Category") {
+                navigateToAddCategoryFragment()
+            } else {
+                Toast.makeText(applicationContext, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -103,14 +92,48 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
+    fun updateCategoryDropdown() {
+        lifecycleScope.launch {
+            val categories = withContext(Dispatchers.IO) {
+                categoryDao.getAll().map { it.namaKategori }
+            }
+
+            if (categories.isEmpty()) {
+                // Jika tidak ada kategori ditemukan, tambahkan kategori default ke database
+                withContext(Dispatchers.IO) {
+                    categoryDao.insertAll(
+                        Kategori(namaKategori = "Makanan"),
+                        Kategori(namaKategori = "Transportasi"),
+                        Kategori(namaKategori = "Belanja")
+                        // Tambahkan kategori lainnya sesuai kebutuhan
+                    )
+                }
+
+                // Setelah menambahkan kategori default, ambil kembali semua kategori
+                val updatedCategories = withContext(Dispatchers.IO) {
+                    categoryDao.getAll().map { it.namaKategori }
+                }
+                val categoriesWithAddOption = updatedCategories.toMutableList()
+                categoriesWithAddOption.add("Add Category")
+
+                val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categoriesWithAddOption)
+                autoCompleteTextView.setAdapter(adapter)
+            } else {
+                val categoriesWithAddOption = categories.toMutableList()
+                categoriesWithAddOption.add("Add Category")
+
+                val adapter = ArrayAdapter(this@AddActivity, android.R.layout.simple_dropdown_item_1line, categoriesWithAddOption)
+                autoCompleteTextView.setAdapter(adapter)
+            }
+        }
+    }
+
     private fun navigateToAddCategoryFragment() {
-        // Buat instance dari AddNewCategoryFragment
         val fragment = AddingNewCategoryFragment()
 
-        // Menggunakan supportFragmentManager untuk memulai transaksi fragment
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment) // Menempatkan fragment di dalam fragment_container
-            .addToBackStack(null) // Agar fragment bisa dikembalikan jika diperlukan
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
             .commit()
     }
 
@@ -176,7 +199,9 @@ class AddActivity : AppCompatActivity() {
                 Toast.makeText(this@AddActivity, "Pengeluaran saved successfully", Toast.LENGTH_SHORT).show()
             }
         }
+
+        val intent = Intent(this@AddActivity, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
-
-
 }

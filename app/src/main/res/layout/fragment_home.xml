@@ -301,24 +301,6 @@
                         app:layout_constraintStart_toEndOf="@id/dateDayLayout"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
-                            android:id="@+id/incomeText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:fontFamily="@font/inter_regular"
-                            android:text="Rp.200.000"
-                            android:textColor="@color/greenIncome"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/expenseText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="43dp"
-                            android:text="Rp.100.000"
-                            android:textColor="@color/redOutcome"
-                            android:textSize="14sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -360,14 +342,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_weight="0.29"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_wallet" />
-
-                        </LinearLayout>
+                            android:orientation="vertical"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -414,7 +389,6 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/inter_regular"
                                 android:text="Rp.200.000"
-                                android:textColor="@color/greenIncome"
                                 android:textSize="14sp"
                                 app:layout_constraintBottom_toBottomOf="@id/linearLayout1"
                                 app:layout_constraintStart_toEndOf="@id/linearLayout1"
@@ -424,6 +398,16 @@
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/incomeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Rp.200.000"
+                    android:textSize="14sp"
+                    tools:layout_editor_absoluteX="315dp"
+                    tools:layout_editor_absoluteY="16dp" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

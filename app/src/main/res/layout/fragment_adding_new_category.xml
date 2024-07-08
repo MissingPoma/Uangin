@@ -11,54 +11,54 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
-    <TextView
-        android:fontFamily="@font/inter_medium"
-        android:id="@+id/title"
-        android:textSize="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Buat Kategori Baru"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nama Kategori"
-        android:layout_marginTop="16dp"
-        style="@style/CustomTextInputLayout"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/category_name"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:text="Buat Kategori Baru"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="20dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="32dp"
-        android:gravity="end">
-
-        <Button
-            android:fontFamily="@font/inter_regular"
-            android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BATAL"
-            android:background="?android:attr/selectableItemBackground"
-            android:textColor="@android:color/black" />
+            android:layout_marginTop="16dp"
+            android:hint="Nama Kategori"
+            style="@style/CustomTextInputLayout">
 
-        <Button
-            android:fontFamily="@font/inter_regular"
-            android:id="@+id/save_button"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/category_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SIMPAN"
-            android:layout_marginStart="16dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:textColor="@android:color/black"/>
-    </LinearLayout>
+            android:layout_marginTop="32dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:fontFamily="@font/inter_regular"
+                android:text="BATAL"
+                android:textColor="@android:color/black" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:fontFamily="@font/inter_regular"
+                android:text="SIMPAN"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

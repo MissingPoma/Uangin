@@ -22,4 +22,7 @@ interface PengeluaranDao {
 
     @Delete
     fun delete(pengeluaran: Pengeluaran)
+
+    @Query("SELECT * FROM pengeluaran ORDER BY tanggal DESC")
+    fun getAllOrderedByDate(): List<Pengeluaran>
 }
