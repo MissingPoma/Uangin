@@ -1,68 +1,97 @@
 package com.example.uangin
 
+import TransactionAdapter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.uangin.MainActivity
+import com.example.uangin.R
+import com.example.uangin.database.AppDatabase
+import com.example.uangin.database.entity.Transaction
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var transactionAdapter: TransactionAdapter
+    private val transactionList = mutableListOf<Transaction>()
+    private val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).showFab() // Menampilkan FAB saat fragment aktif
+        (activity as MainActivity).showFab()
     }
 
     override fun onPause() {
         super.onPause()
-        (activity as MainActivity).hideFab() // Menyembunyikan FAB saat fragment tidak aktif
+        (activity as MainActivity).hideFab()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        setupRecyclerView(view)
+        loadTransactions()
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun setupRecyclerView(view: View) {
+        transactionAdapter = TransactionAdapter(transactionList)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = transactionAdapter
+    }
+
+    private fun loadTransactions() {
+        val db = AppDatabase.getDatabase(requireContext())
+        val pengeluaranDao = db.pengeluaranDao()
+        val pemasukanDao = db.pemasukanDao()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val pengeluaranList = pengeluaranDao.getAllOrderedByDate()
+            val pemasukanList = pemasukanDao.getAllOrderedByDate()
+
+            val combinedList = mutableListOf<Transaction>()
+
+            pengeluaranList.forEach {
+                try {
+                    val date = dateFormat.parse(it.tanggal)
+                    combinedList.add(Transaction(it.id, date, it.kategori, it.catatan, it.jumlah, true))
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
+
+            pemasukanList.forEach {
+                try {
+                    val date = dateFormat.parse(it.tanggal)
+                    combinedList.add(Transaction(it.id, date, it.kategori, it.catatan, it.jumlah, false))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            combinedList.sortByDescending { it.tanggal }
+
+            withContext(Dispatchers.Main) {
+                transactionList.clear()
+                transactionList.addAll(combinedList)
+                transactionAdapter.notifyDataSetChanged()
+            }
+        }
     }
 }
