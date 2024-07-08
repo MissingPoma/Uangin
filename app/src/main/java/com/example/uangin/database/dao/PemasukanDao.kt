@@ -18,6 +18,9 @@ interface PemasukanDao {
     @Query("SELECT * FROM pemasukan WHERE kategori LIKE :kategori LIMIT 1")
     fun findByKategori(kategori: String): Pemasukan
 
+    @Query("DELETE FROM pemasukan")
+    suspend fun deleteAll()
+
     @Insert
     fun insertAll(vararg pemasukan: Pemasukan)
 
