@@ -18,12 +18,6 @@ interface PengeluaranDao {
     @Query("SELECT * FROM pengeluaran WHERE kategori LIKE :kategori LIMIT 1")
     fun findByKategori(kategori: String): Pengeluaran
 
-    @Query("SELECT * FROM pengeluaran WHERE id = :id")
-    suspend fun getPengeluaranById(id: Int): Pengeluaran?
-
-    @Update
-    suspend fun update(pengeluaran: Pengeluaran) // Tambahkan fungsi update
-
     @Query("DELETE FROM pengeluaran")
     suspend fun deleteAll()
 
