@@ -73,6 +73,7 @@ class SettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val rightArrowKelola = view.findViewById<ImageButton>(R.id.rightArrowKelola)
         val righArrowSetel = view.findViewById<ImageButton>(R.id.righArrowSetel) // Inisialisasi tombol
         tvNotifTime = view.findViewById(R.id.tvNotifTime)
         switchNotif = view.findViewById(R.id.switchNotif)
@@ -94,6 +95,11 @@ class SettingFragment : Fragment() {
                 tvNotifTime.text = "Tidak Aktif"
                 cancelScheduledNotification()
             }
+        }
+
+        rightArrowKelola.setOnClickListener {
+            val intent = Intent(activity, EditCategory::class.java)
+            startActivity(intent)
         }
 
         righArrowSetel.setOnClickListener {
