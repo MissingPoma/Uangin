@@ -26,20 +26,29 @@ tools:context=".MainActivity">
             app:backgroundTint="@color/darkBlue"
             app:tint="@android:color/white" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="50dp"
             android:layout_gravity="bottom"
-            android:layout_height="75dp"
-            android:id="@+id/bottomNavigationView"
-            app:itemIconTint="@color/bottom_nav_color"
-            app:labelVisibilityMode="unlabeled"
-            app:itemActiveIndicatorStyle="@color/white"
             android:layout_marginBottom="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/bottom_background"
-            app:menu="@menu/bottom_nav"/>
+            app:cardBackgroundColor="@color/white"
+            app:strokeColor="@color/white"
+            android:elevation="8dp"
+            app:cardElevation="8dp">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:background="@drawable/bottom_background"
+                    app:itemIconTint="@color/bottom_nav_color"
+                    app:labelVisibilityMode="unlabeled"
+                    app:itemActiveIndicatorStyle="@color/white"
+                    app:menu="@menu/bottom_nav"/>
+        </com.google.android.material.card.MaterialCardView>
 
 
 
