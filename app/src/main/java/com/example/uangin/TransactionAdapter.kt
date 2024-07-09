@@ -9,9 +9,14 @@ import com.example.uangin.database.entity.Transaction
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TransactionAdapter(private val transactionList: List<Transaction>) :
+
+class TransactionAdapter( private val transactionList: List<Transaction>,
+                          private val listener: OnTransactionClickListener) :
     RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
+    interface OnTransactionClickListener {
+        fun onTransactionClick(transaction: Transaction) // Ubah parameter menjadi Any
+    }
     class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cardView: CardView = view.findViewById(R.id.card)
         val dateText: TextView = view.findViewById(R.id.dateText)
@@ -52,7 +57,7 @@ class TransactionAdapter(private val transactionList: List<Transaction>) :
         }
 
         holder.cardView.setOnClickListener {
-            // Handle click event
+            listener.onTransactionClick(transaction) // Panggil listener saat CardView diklik
         }
     }
 
