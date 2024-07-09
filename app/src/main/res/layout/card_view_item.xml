@@ -190,6 +190,7 @@
             android:id="@+id/idData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             tools:layout_editor_absoluteX="179dp"
             tools:layout_editor_absoluteY="13dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
