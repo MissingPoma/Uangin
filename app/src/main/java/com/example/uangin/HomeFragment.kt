@@ -7,35 +7,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.uangin.MainActivity
-import com.example.uangin.R
 import com.example.uangin.database.AppDatabase
-import com.example.uangin.database.entity.Transaction
+import com.example.uangin.database.entity.Transactions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeFragment : Fragment() {
 
     private lateinit var transactionAdapter: TransactionAdapter
-    private val transactionList = mutableListOf<Transaction>()
-    private val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
+    private val transactionList = mutableListOf<Transactions>()
 
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).showFab()
+        loadTransactions()
     }
 
     override fun onPause() {
         super.onPause()
         (activity as MainActivity).hideFab()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -44,7 +37,6 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         setupRecyclerView(view)
-        loadTransactions()
         return view
     }
 
@@ -64,24 +56,32 @@ class HomeFragment : Fragment() {
             val pengeluaranList = pengeluaranDao.getAllOrderedByDate()
             val pemasukanList = pemasukanDao.getAllOrderedByDate()
 
-            val combinedList = mutableListOf<Transaction>()
+            val combinedList = mutableListOf<Transactions>()
 
             pengeluaranList.forEach {
-                try {
-                    val date = dateFormat.parse(it.tanggal)
-                    combinedList.add(Transaction(it.id, date, it.kategori, it.catatan, it.jumlah, true))
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                combinedList.add(
+                    Transactions(
+                        it.id,
+                        it.tanggal,
+                        it.kategori,
+                        it.catatan,
+                        it.jumlah,
+                        true
+                    )
+                )
             }
 
             pemasukanList.forEach {
-                try {
-                    val date = dateFormat.parse(it.tanggal)
-                    combinedList.add(Transaction(it.id, date, it.kategori, it.catatan, it.jumlah, false))
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                combinedList.add(
+                    Transactions(
+                        it.id,
+                        it.tanggal,
+                        it.kategori,
+                        it.catatan,
+                        it.jumlah,
+                        false
+                    )
+                )
             }
 
             combinedList.sortByDescending { it.tanggal }

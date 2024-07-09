@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.uangin.database.entity.Pengeluaran
 
 @Dao
@@ -24,8 +25,16 @@ interface PengeluaranDao {
     fun insertAll(vararg pengeluaran: Pengeluaran)
 
     @Delete
-    fun delete(pengeluaran: Pengeluaran)
+    suspend fun delete(pengeluaran: Pengeluaran)
 
     @Query("SELECT * FROM pengeluaran ORDER BY tanggal DESC")
     fun getAllOrderedByDate(): List<Pengeluaran>
+
+    @Update
+    suspend fun update(pengeluaran: Pengeluaran)
+
+    @Query("DELETE FROM pengeluaran WHERE id = :transactionId")
+    suspend fun delete(transactionId: Int)
+
+
 }

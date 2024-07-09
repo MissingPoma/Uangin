@@ -1,4 +1,3 @@
-
 package com.example.uangin
 
 import android.app.DatePickerDialog
@@ -18,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddActivity : AppCompatActivity() {
@@ -169,9 +169,21 @@ class AddActivity : AppCompatActivity() {
         val kategori = autoCompleteTextView.text.toString()
         val jumlah = jumlahEditText.text.toString().toDoubleOrNull()
         val catatan = catatanEditText.text.toString()
-        val tanggal = tanggalTextView.text.toString()
+        val tanggalText = tanggalTextView.text.toString()
 
-        if (kategori.isEmpty() || jumlah == null || catatan.isEmpty() || tanggal.isEmpty()) {
+        val tanggal = try {
+            // Parsing tanggal dari format "19 Juni 2024"
+            val originalFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
+            val parsedDate = originalFormat.parse(tanggalText)
+
+            // Mengubah ke format "dd/MM/yyyy"
+            val targetFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            targetFormat.parse(targetFormat.format(parsedDate!!))
+        } catch (e: Exception) {
+            null
+        }
+
+        if (kategori.isEmpty() || jumlah == null || catatan.isEmpty() || tanggal == null) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }

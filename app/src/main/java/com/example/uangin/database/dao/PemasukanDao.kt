@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.uangin.database.entity.Pemasukan
 
 
@@ -25,8 +26,14 @@ interface PemasukanDao {
     fun insertAll(vararg pemasukan: Pemasukan)
 
     @Delete
-    fun delete(pemasukan: Pemasukan)
+    suspend fun delete(pemasukan: Pemasukan)
 
     @Query("SELECT * FROM pemasukan ORDER BY tanggal DESC")
     fun getAllOrderedByDate(): List<Pemasukan>
+
+    @Update
+    suspend fun update(pemasukan: Pemasukan)
+
+    @Query("DELETE FROM pemasukan WHERE id = :transactionId")
+    suspend fun delete(transactionId: Int)
 }
