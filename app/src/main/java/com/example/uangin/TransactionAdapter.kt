@@ -1,3 +1,5 @@
+package com.example.uangin
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +11,9 @@ import com.example.uangin.database.entity.Transaction
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class TransactionAdapter( private val transactionList: List<Transaction>,
-                          private val listener: OnTransactionClickListener) :
+class TransactionAdapter(private val transactionList: List<Transaction>) :
     RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    interface OnTransactionClickListener {
-        fun onTransactionClick(transaction: Transaction) // Ubah parameter menjadi Any
-    }
     class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cardView: CardView = view.findViewById(R.id.card)
         val dateText: TextView = view.findViewById(R.id.dateText)
@@ -57,7 +54,7 @@ class TransactionAdapter( private val transactionList: List<Transaction>,
         }
 
         holder.cardView.setOnClickListener {
-            listener.onTransactionClick(transaction) // Panggil listener saat CardView diklik
+            // Handle click event
         }
     }
 

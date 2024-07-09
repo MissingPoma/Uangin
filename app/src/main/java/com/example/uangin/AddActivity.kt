@@ -129,6 +129,7 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
+
     private fun navigateToAddCategoryFragment() {
         val fragment = AddingNewCategoryFragment()
 

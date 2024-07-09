@@ -216,23 +216,11 @@
         android:layout_weight="1">
 
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <!-- Add a View to create space at the bottom -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"/>
-        </LinearLayout>
+            android:layout_height="match_parent" />
     </ScrollView>
-
 </RelativeLayout>
 
 </FrameLayout>

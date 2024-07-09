@@ -1,9 +1,6 @@
 package com.example.uangin
 
-import TransactionAdapter
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.uangin.MainActivity
 import com.example.uangin.R
 import com.example.uangin.database.AppDatabase
-import com.example.uangin.database.entity.Pemasukan
-import com.example.uangin.database.entity.Pengeluaran
 import com.example.uangin.database.entity.Transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +18,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HomeFragment : Fragment(), TransactionAdapter.OnTransactionClickListener {
+class HomeFragment : Fragment() {
 
     private lateinit var transactionAdapter: TransactionAdapter
     private val transactionList = mutableListOf<Transaction>()
@@ -53,19 +48,8 @@ class HomeFragment : Fragment(), TransactionAdapter.OnTransactionClickListener {
         return view
     }
 
-    override fun onTransactionClick(transaction: Transaction) {
-        val intent = Intent(context, EditTransactionActivity::class.java)
-        intent.putExtra("transaction_id", transaction.id)
-        intent.putExtra("transaction_type", transaction.isPengeluaran)
-        intent.putExtra("transaction_amount", transaction.jumlah)
-        intent.putExtra("transaction_category", transaction.kategori)
-        intent.putExtra("transaction_note", transaction.catatan)
-        intent.putExtra("transaction_date", transaction.tanggal.time)
-        startActivity(intent)
-    }
-
     private fun setupRecyclerView(view: View) {
-        transactionAdapter = TransactionAdapter(transactionList, this)
+        transactionAdapter = TransactionAdapter(transactionList)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = transactionAdapter

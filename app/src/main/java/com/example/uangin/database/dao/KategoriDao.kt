@@ -9,7 +9,7 @@ import com.example.uangin.database.entity.Kategori
 
 @Dao
 interface KategoriDao {
-    @Query("SELECT * FROM kategori")
+    @Query("SELECT * FROM kategori ORDER BY namaKategori ASC")
     suspend fun getAll(): List<Kategori>
 
     @Insert

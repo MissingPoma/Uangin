@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -14,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Uangin"
         tools:targetApi="31">
+        <activity
+            android:name=".UpdateActivity"
+            android:exported="false" />
         <activity
             android:name=".EditTransactionActivity"
             android:exported="false" />
@@ -34,7 +36,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"/>
+
         <activity android:name=".AddActivity" />
         <activity android:name=".SettingActivity" />
         <activity
@@ -47,7 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <receiver android:name=".SettingFragment$NotificationReceiver" />
     </application>
 
