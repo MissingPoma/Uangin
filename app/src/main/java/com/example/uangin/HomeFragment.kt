@@ -31,8 +31,10 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).showFab()
+        updateFinanceInfo()
         loadTransactions()
     }
+
 
     override fun onPause() {
         super.onPause()
@@ -51,10 +53,42 @@ class HomeFragment : Fragment() {
         buttonMenu.setOnClickListener {
             showFilterPopupMenu(it)
         }
+        // Panggil updateFinanceInfo untuk pertama kali
+        updateFinanceInfo()
         setupRecyclerView(view)
         loadTransactions("semua") // Load semua transaksi saat awal
         return view
     }
+
+    private fun updateFinanceInfo() {
+        val db = AppDatabase.getDatabase(requireContext())
+        val pengeluaranDao = db.pengeluaranDao()
+        val pemasukanDao = db.pemasukanDao()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            // Hitung total pemasukan
+            val totalPemasukan = pemasukanDao.getTotalAmount()
+
+            // Hitung total pengeluaran
+            val totalPengeluaran = pengeluaranDao.getTotalAmount()
+
+            // Hitung saldo
+            val saldo = totalPemasukan - totalPengeluaran
+
+            // Update UI di main thread
+            withContext(Dispatchers.Main) {
+                // Update TextView Pemasukan
+                view?.findViewById<TextView>(R.id.textPemasukan)?.text = "Rp ${totalPemasukan}"
+
+                // Update TextView Pengeluaran
+                view?.findViewById<TextView>(R.id.textPengeluaran)?.text = "Rp ${totalPengeluaran}"
+
+                // Update TextView Saldo
+                view?.findViewById<TextView>(R.id.textSaldo)?.text = "Rp ${saldo}"
+            }
+        }
+    }
+
 
     private fun showFilterPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
@@ -87,22 +121,21 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = transactionAdapter
     }
 
-    private fun loadTransactions(filter: String = "semua") { // Tambahkan parameter filter
+    private fun loadTransactions(filter: String = "semua") {
         val db = AppDatabase.getDatabase(requireContext())
         val pengeluaranDao = db.pengeluaranDao()
         val pemasukanDao = db.pemasukanDao()
 
         CoroutineScope(Dispatchers.IO).launch {
             val combinedList = when (filter) {
-                "pemasukan" -> pemasukanDao.getAllOrderedByDate().map { it.toTransaction() }
-                "pengeluaran" -> pengeluaranDao.getAllOrderedByDate().map { it.toTransaction() }
+                "pemasukan" -> pemasukanDao.getAllOrderedByDateDescAndIdDesc().map { it.toTransaction() }
+                "pengeluaran" -> pengeluaranDao.getAllOrderedByDateDescAndIdDesc().map { it.toTransaction() }
                 else -> { // "semua" atau filter tidak valid
-                    val pengeluaranList = pengeluaranDao.getAllOrderedByDate()
-                    val pemasukanList = pemasukanDao.getAllOrderedByDate()
-                    (pengeluaranList.map { it.toTransaction() } + pemasukanList.map { it.toTransaction() }).toMutableList()
+                    val pengeluaranList = pengeluaranDao.getAllOrderedByDateDescAndIdDesc()
+                    val pemasukanList = pemasukanDao.getAllOrderedByDateDescAndIdDesc()
+                    (pengeluaranList.map { it.toTransaction() } + pemasukanList.map { it.toTransaction() }).sortedByDescending { it.tanggal }.toMutableList()
                 }
             }
-
 
             withContext(Dispatchers.Main) {
                 transactionList.clear()
@@ -111,5 +144,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
 
 }

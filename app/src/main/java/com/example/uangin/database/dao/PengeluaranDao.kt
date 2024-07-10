@@ -36,5 +36,9 @@ interface PengeluaranDao {
     @Query("DELETE FROM pengeluaran WHERE id = :transactionId")
     suspend fun delete(transactionId: Int)
 
+    @Query("SELECT * FROM Pengeluaran ORDER BY tanggal DESC, id DESC")
+    fun getAllOrderedByDateDescAndIdDesc(): List<Pengeluaran>
 
+    @Query("SELECT COALESCE(SUM(jumlah), 0) FROM pengeluaran")
+    suspend fun getTotalAmount(): Long
 }
