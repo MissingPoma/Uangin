@@ -51,4 +51,7 @@ interface PemasukanDao {
 
     @Query("SELECT * FROM Pemasukan WHERE kategori = :category AND catatan LIKE '%' || :note || '%'")
     suspend fun searchByCategoryAndNote(category: String, note: String): List<Pemasukan>
+
+    @Query("SELECT * FROM Pemasukan WHERE catatan LIKE '%' || :query || '%' OR kategori LIKE :query")
+    suspend fun searchByNoteOrCategory(query: String): List<Pemasukan>
 }

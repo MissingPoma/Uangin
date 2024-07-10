@@ -1,5 +1,7 @@
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -27,6 +29,7 @@ class SearchFragment : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var searchButton: Button
     private lateinit var recyclerView: RecyclerView
+    private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var categoryDao: KategoriDao
     private lateinit var pemasukanDao: PemasukanDao
     private lateinit var pengeluaranDao: PengeluaranDao
@@ -44,6 +47,7 @@ class SearchFragment : Fragment() {
         searchView = view.findViewById(R.id.searchView)
         searchButton = view.findViewById(R.id.buttonCari)
         recyclerView = view.findViewById(R.id.recyclerView)
+        autoCompleteTextView = view.findViewById(R.id.itemKategori)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         categoryDao = AppDatabase.getDatabase(requireContext()).kategoriDao()
         pemasukanDao = AppDatabase.getDatabase(requireContext()).pemasukanDao()
@@ -60,41 +64,15 @@ class SearchFragment : Fragment() {
                 categoryDao.getAll().sortedBy { it.namaKategori }.map { it.namaKategori }
             }
 
-            if (categories.isEmpty()) {
-                // Jika tidak ada kategori ditemukan, tambahkan kategori default ke database
-                withContext(Dispatchers.IO) {
-                    categoryDao.insertAll(
-                        Kategori(namaKategori = "Makanan"),
-                        Kategori(namaKategori = "Transportasi"),
-                        Kategori(namaKategori = "Belanja")
-                        // Tambahkan kategori lainnya sesuai kebutuhan
-                    )
-                }
-
-                // Setelah menambahkan kategori default, ambil kembali semua kategori
-                val updatedCategories = withContext(Dispatchers.IO) {
-                    categoryDao.getAll().sortedBy { it.namaKategori }.map { it.namaKategori }
-                }
-
-                val categoriesWithAddOption = updatedCategories.toMutableList()
-                categoriesWithAddOption.add("Add Category")
-
-                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categoriesWithAddOption)
-                // Set adapter to autoCompleteTextView
-            } else {
-                val categoriesWithAddOption = categories.toMutableList()
-                categoriesWithAddOption.add("Add Category")
-
-                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categoriesWithAddOption)
-                // Set adapter to autoCompleteTextView
-            }
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categories)
+            autoCompleteTextView.setAdapter(adapter)
         }
     }
 
     private fun setupSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { searchTransactionsByNote(it) }
+                query?.let { searchTransactionsByNoteOrCategory(it) }
                 return true
             }
 
@@ -107,19 +85,19 @@ class SearchFragment : Fragment() {
 
     private fun setupSearchButton() {
         searchButton.setOnClickListener {
-            val selectedCategory = "" // Ganti dengan nilai yang sesuai dari autoCompleteTextView jika perlu
+            val selectedCategory = autoCompleteTextView.text.toString()
             val selectedNote = searchView.query.toString().trim()
 
-            if (selectedCategory.isNotBlank() && selectedCategory != "Add Category") {
+            if (selectedCategory.isNotBlank()) {
                 if (selectedNote.isBlank()) {
                     searchTransactionsByCategory(selectedCategory)
                 } else {
                     searchTransactionsByCategoryAndNote(selectedCategory, selectedNote)
                 }
             } else if (selectedNote.isNotBlank()) {
-                searchTransactionsByNote(selectedNote)
+                searchTransactionsByNoteOrCategory(selectedNote)
             } else {
-                Toast.makeText(requireContext(), "Masukkan catatan untuk pencarian", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Masukkan kategori atau catatan untuk pencarian", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -138,13 +116,13 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun searchTransactionsByNote(note: String) {
+    private fun searchTransactionsByNoteOrCategory(query: String) {
         lifecycleScope.launch {
             val pemasukanList = withContext(Dispatchers.IO) {
-                pemasukanDao.searchByNote(note)
+                pemasukanDao.searchByNoteOrCategory(query)
             }
             val pengeluaranList = withContext(Dispatchers.IO) {
-                pengeluaranDao.searchByNote(note)
+                pengeluaranDao.searchByNoteOrCategory(query)
             }
 
             val combinedList = pemasukanList + pengeluaranList
