@@ -14,3 +14,12 @@ data class Pengeluaran(
     @ColumnInfo(name = "catatan") val catatan: String?,
     @ColumnInfo(name = "tanggal") val tanggal: Date
 )
+
+fun Pengeluaran.toTransaction(): Transactions = Transactions(
+    id = this.id,
+    tanggal = this.tanggal,
+    kategori = this.kategori,
+    catatan = this.catatan,
+    jumlah = this.jumlah,
+    isPengeluaran = true // Pengeluaran selalu true
+)

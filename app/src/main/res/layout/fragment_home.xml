@@ -13,7 +13,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarHome"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:background="@color/darkBlue"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -22,85 +22,42 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="2dp"
             android:gravity="center_vertical">
 
             <!-- Left Arrow Button -->
-            <ImageButton
-                android:id="@+id/leftArrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/vector_left"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="10dp" />
 
             <!-- Toolbar Title (Optional, can be removed or adjusted as needed) -->
             <TextView
                 android:id="@+id/toolbarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title"
-
+                android:text="Semua Catatan"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/inter_semibold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:padding="10dp" />
 
-            <!-- Right Arrow Button -->
             <ImageButton
-                android:id="@+id/rightArrow"
+                android:id="@+id/buttonMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/vector_right"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="10dp" />
+                android:src="@drawable/baseline_keyboard_arrow_down_24"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
 
     <!-- Tab Layout -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbarHome"
-        android:background="@color/darkBlue"
-        app:tabTextAppearance="@style/TabTextAppearance"
-        app:tabIndicatorColor="@color/white"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@android:color/white">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabHari"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hari" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabMinggu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Minggu" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabBulan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bulan" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabTahun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tahun" />
-    </com.google.android.material.tabs.TabLayout>
+   =
 
     <androidx.cardview.widget.CardView
         android:id="@+id/financeInfoCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tabLayout"
+        android:layout_below="@id/toolbarHome"
         app:cardElevation="4dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="0dp"
@@ -203,9 +160,6 @@
     </androidx.cardview.widget.CardView>
 
 
-    <!-- Content Area -->
-
-    <!-- Bottom Navigation Bar -->
 
     <ScrollView
         android:id="@+id/content"
@@ -221,6 +175,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </ScrollView>
+
 </RelativeLayout>
 
 </FrameLayout>

@@ -1,6 +1,7 @@
 package com.example.uangin
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,8 @@ class TransactionAdapter(private val transactionList: List<Transactions>) :
         holder.noteText.text = transaction.catatan
         holder.amountText.text = "Rp ${transaction.jumlah}"
         holder.incomeText.text = "Rp ${transaction.jumlah}"
+
+        Log.d("TransactionAdapter", "Transaction at position $position: isPengeluaran = ${transaction.isPengeluaran}")
 
         if (transaction.isPengeluaran) {
             holder.amountText.setTextColor(holder.itemView.context.getColor(R.color.redOutcome))
