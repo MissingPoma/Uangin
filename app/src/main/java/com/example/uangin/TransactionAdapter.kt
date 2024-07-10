@@ -26,6 +26,8 @@ class TransactionAdapter(private val transactionList: List<Transactions>) :
         val idData: TextView = view.findViewById(R.id.idData)
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view_item, parent, false)
         return TransactionViewHolder(view)
@@ -40,6 +42,12 @@ class TransactionAdapter(private val transactionList: List<Transactions>) :
         holder.dateText.text = dateFormatDay.format(transaction.tanggal)
         holder.dayText.text = dateFormatMonthYear.format(transaction.tanggal)
         holder.dayName.text = dateFormatDayName.format(transaction.tanggal)
+
+        val dayValue = dateFormatDay.format(transaction.tanggal)
+        val monthYearValue = dateFormatMonthYear.format(transaction.tanggal)
+
+        // Gabungkan menjadi format dd/mm/yyyy
+        val fullDate = "$dayValue/$monthYearValue"
 
         holder.idData.text = transaction.id.toString()
         holder.categoryText.text = transaction.kategori
@@ -63,7 +71,7 @@ class TransactionAdapter(private val transactionList: List<Transactions>) :
                 putExtra("TRANSACTION_AMOUNT", transaction.jumlah)
                 putExtra("TRANSACTION_CATEGORY", transaction.kategori)
                 putExtra("TRANSACTION_NOTE", transaction.catatan)
-                putExtra("TRANSACTION_DATE", dateFormatMonthYear.format(transaction.tanggal))
+                putExtra("TRANSACTION_DATE", fullDate)
             }
             context.startActivity(intent)
         }
