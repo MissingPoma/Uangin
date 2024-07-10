@@ -42,4 +42,16 @@ interface PemasukanDao {
 
     @Query("SELECT COALESCE(SUM(jumlah), 0) FROM pemasukan")
     suspend fun getTotalAmount(): Long
+
+    @Query("SELECT * FROM Pemasukan WHERE kategori = :category")
+    suspend fun searchByCategory(category: String): List<Pemasukan>
+
+    @Query("SELECT * FROM Pemasukan WHERE catatan LIKE '%' || :note || '%'")
+    suspend fun searchByNote(note: String): List<Pemasukan>
+
+    @Query("SELECT * FROM Pemasukan WHERE kategori = :category AND catatan LIKE '%' || :note || '%'")
+    suspend fun searchByCategoryAndNote(category: String, note: String): List<Pemasukan>
+
+    @Query("SELECT * FROM Pemasukan WHERE catatan LIKE '%' || :query || '%' OR kategori LIKE :query")
+    suspend fun searchByNoteOrCategory(query: String): List<Pemasukan>
 }
