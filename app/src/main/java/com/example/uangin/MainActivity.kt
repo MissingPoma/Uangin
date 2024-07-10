@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         }
         val homeFragment = HomeFragment()
         val settingFragment = SettingFragment()
+        val searchFragment = SearchFragment()
+        val chartFragment = ChartFragment()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         replaceFragment(homeFragment)
@@ -50,6 +52,8 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.homeIcon -> replaceFragment(homeFragment)
                 R.id.settingIcon -> replaceFragment(settingFragment)
+                R.id.searchIcon -> replaceFragment(searchFragment)
+                R.id.chartIcon -> replaceFragment(chartFragment)
             }
             true
         }

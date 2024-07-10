@@ -6,200 +6,200 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <RelativeLayout
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!-- Tab Layout -->
+<androidx.cardview.widget.CardView
+    android:id="@+id/cardViewToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_marginTop="-23dp" >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarHome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="173dp"
+        android:background="@color/darkBlue"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        >
 
-
-        <!-- Tab Layout -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="-23dp" >
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarHome"
-                android:layout_width="match_parent"
-                android:layout_height="173dp"
-                android:background="@color/darkBlue"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                >
-
-                <!-- Left Arrow Button -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="0dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <!-- Left Arrow Button -->
-
-                    <!-- Toolbar Title (Optional, can be removed or adjusted as needed) -->
-                    <TextView
-                        android:id="@+id/toolbarTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:fontFamily="@font/inter_semibold"
-                        android:padding="10dp"
-                        android:text="Semua Catatan"
-                        android:textColor="@android:color/white"
-                        android:textSize="23sp" />
-
-                    <ImageButton
-                        android:id="@+id/buttonMenu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/baseline_keyboard_arrow_down_24" />
-                </LinearLayout>
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/financeInfoCard"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_below="@id/cardViewToolbar"
-            app:cardElevation="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="-40dp"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="50dp"
-            android:layout_marginBottom="10dp"> <!-- Adjust margin as needed -->
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/financeInfo"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@android:color/white"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-                <LinearLayout
-                    android:layout_marginTop="14dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="-10dp">
-
-                    <!-- Pemasukan -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="Pemasukan"
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/textPemasukan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="Rp 0"
-                            android:textColor="@color/greenIncome"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <!-- Pengeluaran -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="Pengeluaran"
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/textPengeluaran"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="Rp 0"
-                            android:textColor="@color/redOutcome"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <!-- Saldo -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="Saldo"
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/textSaldo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="Rp 0"
-                            android:textColor="#777272"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.appcompat.widget.Toolbar>
-        </androidx.cardview.widget.CardView>
-
-
-
-        <ScrollView
-            android:id="@+id/content"
-            android:layout_width="match_parent"
+        <!-- Left Arrow Button -->
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_below="@id/financeInfoCard"
-            android:layout_marginTop="1dp"
-            android:layout_weight="1">
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical">
 
+            <!-- Left Arrow Button -->
+
+            <!-- Toolbar Title (Optional, can be removed or adjusted as needed) -->
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/inter_semibold"
+                android:padding="10dp"
+                android:text="Semua Catatan"
+                android:textColor="@android:color/white"
+                android:textSize="23sp" />
+
+            <ImageButton
+                android:id="@+id/buttonMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/baseline_keyboard_arrow_down_24" />
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/financeInfoCard"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/cardViewToolbar"
+        app:cardElevation="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="-40dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="50dp"
+        android:layout_marginBottom="10dp"> <!-- Adjust margin as needed -->
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/financeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@android:color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <LinearLayout
+                android:layout_marginTop="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="-10dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                <!-- Pemasukan -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
 
-                <!-- Add a View to create space at the bottom -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Pemasukan"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/textPemasukan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Rp 0"
+                        android:textColor="@color/greenIncome"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!-- Pengeluaran -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Pengeluaran"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/textPengeluaran"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Rp 0"
+                        android:textColor="@color/redOutcome"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!-- Saldo -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Saldo"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/textSaldo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Rp 0"
+                        android:textColor="#777272"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
             </LinearLayout>
-        </ScrollView>
+
+        </androidx.appcompat.widget.Toolbar>
+    </androidx.cardview.widget.CardView>
 
 
-    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/financeInfoCard"
+        android:layout_marginTop="1dp"
+        android:layout_weight="1">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Add a View to create space at the bottom -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
 
 </FrameLayout>
