@@ -1,5 +1,6 @@
 package com.example.uangin
 
+import SearchFragment
 import SettingFragment
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

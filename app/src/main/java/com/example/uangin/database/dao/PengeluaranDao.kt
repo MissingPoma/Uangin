@@ -41,4 +41,13 @@ interface PengeluaranDao {
 
     @Query("SELECT COALESCE(SUM(jumlah), 0) FROM pengeluaran")
     suspend fun getTotalAmount(): Long
+
+    @Query("SELECT * FROM Pengeluaran WHERE kategori = :category")
+    suspend fun searchByCategory(category: String): List<Pengeluaran>
+
+    @Query("SELECT * FROM Pengeluaran WHERE catatan LIKE '%' || :note || '%'")
+    suspend fun searchByNote(note: String): List<Pengeluaran>
+
+    @Query("SELECT * FROM Pengeluaran WHERE kategori = :category AND catatan LIKE '%' || :note || '%'")
+    suspend fun searchByCategoryAndNote(category: String, note: String): List<Pengeluaran>
 }

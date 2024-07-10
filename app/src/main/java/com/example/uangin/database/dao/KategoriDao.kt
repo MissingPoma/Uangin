@@ -38,4 +38,7 @@ interface KategoriDao {
 
     @Delete
     suspend fun delete(kategori: Kategori)
+
+
+
 }
