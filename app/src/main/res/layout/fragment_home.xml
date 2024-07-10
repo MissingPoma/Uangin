@@ -99,21 +99,25 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
+                        android:fontFamily="@font/inter_regular"
                         android:text="Pemasukan"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textPemasukan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
+                        android:fontFamily="@font/inter_regular"
                         android:text="Rp 0"
                         android:textColor="@color/greenIncome"
                         android:textSize="15sp" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"/>
                 <!-- Pengeluaran -->
                 <LinearLayout
                     android:layout_width="0dp"
@@ -125,21 +129,25 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
+                        android:fontFamily="@font/inter_regular"
                         android:text="Pengeluaran"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textPengeluaran"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
+                        android:fontFamily="@font/inter_regular"
                         android:text="Rp 0"
                         android:textColor="@color/redOutcome"
                         android:textSize="15sp" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"/>
                 <!-- Saldo -->
                 <LinearLayout
                     android:layout_width="0dp"
@@ -151,16 +159,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
+                        android:fontFamily="@font/inter_regular"
                         android:text="Saldo"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textSaldo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
+                        android:fontFamily="@font/inter_regular"
                         android:text="Rp 0"
                         android:textColor="#777272"
                         android:textSize="15sp" />
