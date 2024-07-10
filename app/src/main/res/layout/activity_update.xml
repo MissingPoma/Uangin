@@ -113,7 +113,9 @@
                 android:id="@+id/itemKategori"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" >
+                android:inputType="none"
+                android:completionThreshold="1"
+                android:editable="false">
 
             </AutoCompleteTextView>
 
