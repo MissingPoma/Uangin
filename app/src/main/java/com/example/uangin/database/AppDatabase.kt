@@ -18,7 +18,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @Database(entities = [Pemasukan::class, Pengeluaran::class, Kategori::class, Transactions::class], version = 1)
-@TypeConverters(DateConverter::class)
+@TypeConverters(DatesConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun pengeluaranDao(): PengeluaranDao
     abstract fun pemasukanDao(): PemasukanDao

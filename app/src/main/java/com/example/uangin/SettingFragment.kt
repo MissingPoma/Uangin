@@ -1,3 +1,5 @@
+package com.example.uangin
+
 import android.Manifest
 import android.app.AlarmManager
 import android.app.NotificationChannel

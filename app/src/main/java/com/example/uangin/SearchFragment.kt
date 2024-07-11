@@ -1,28 +1,26 @@
+package com.example.uangin
+
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.uangin.R
-import com.example.uangin.SearchResultsAdapter
 import com.example.uangin.database.AppDatabase
 import com.example.uangin.database.dao.KategoriDao
 import com.example.uangin.database.dao.PemasukanDao
 import com.example.uangin.database.dao.PengeluaranDao
-import com.example.uangin.database.entity.Kategori
-import com.example.uangin.database.entity.Pemasukan
-import com.example.uangin.database.entity.Pengeluaran
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SearchFragment : Fragment() {
 
@@ -33,6 +31,12 @@ class SearchFragment : Fragment() {
     private lateinit var categoryDao: KategoriDao
     private lateinit var pemasukanDao: PemasukanDao
     private lateinit var pengeluaranDao: PengeluaranDao
+    private lateinit var calendarButton: ImageButton
+    private lateinit var tanggalTextView: TextView
+    private lateinit var calendarButtonSampai: ImageButton
+    private lateinit var tanggalSampaiTextView: TextView
+    private lateinit var jumlahMinEditText: EditText
+    private lateinit var jumlahMaxEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,9 +57,43 @@ class SearchFragment : Fragment() {
         pemasukanDao = AppDatabase.getDatabase(requireContext()).pemasukanDao()
         pengeluaranDao = AppDatabase.getDatabase(requireContext()).pengeluaranDao()
 
+        calendarButton = view.findViewById(R.id.calendarButton)
+        tanggalTextView = view.findViewById(R.id.tanggalTextView)
+        calendarButtonSampai = view.findViewById(R.id.calendarButtonSampai)
+        tanggalSampaiTextView = view.findViewById(R.id.tanggalSampaiTextView)
+        jumlahMinEditText = view.findViewById(R.id.jumlahMin)
+        jumlahMaxEditText = view.findViewById(R.id.jumlahMax)
+
         updateCategoryDropdown()
         setupSearchView()
         setupSearchButton()
+
+        calendarButton.setOnClickListener {
+            showDatePickerDialog(tanggalTextView)
+        }
+
+        calendarButtonSampai.setOnClickListener {
+            showDatePickerDialog(tanggalSampaiTextView)
+        }
+    }
+
+    private fun showDatePickerDialog(textView: TextView) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val formattedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+                textView.text = formattedDate
+            },
+            year,
+            month,
+            day
+        )
+        datePickerDialog.show()
     }
 
     private fun updateCategoryDropdown() {
@@ -72,12 +110,11 @@ class SearchFragment : Fragment() {
     private fun setupSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { searchTransactionsByNoteOrCategory(it) }
+                query?.let { performSearch() }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Implement if needed
                 return true
             }
         })
@@ -85,30 +122,38 @@ class SearchFragment : Fragment() {
 
     private fun setupSearchButton() {
         searchButton.setOnClickListener {
-            val selectedCategory = autoCompleteTextView.text.toString()
-            val selectedNote = searchView.query.toString().trim()
-
-            if (selectedCategory.isNotBlank()) {
-                if (selectedNote.isBlank()) {
-                    searchTransactionsByCategory(selectedCategory)
-                } else {
-                    searchTransactionsByCategoryAndNote(selectedCategory, selectedNote)
-                }
-            } else if (selectedNote.isNotBlank()) {
-                searchTransactionsByNoteOrCategory(selectedNote)
-            } else {
-                Toast.makeText(requireContext(), "Masukkan kategori atau catatan untuk pencarian", Toast.LENGTH_SHORT).show()
-            }
+            performSearch()
         }
     }
 
-    private fun searchTransactionsByCategory(category: String) {
+    private fun performSearch() {
+        val selectedCategory = autoCompleteTextView.text.toString().ifBlank { null }
+        val selectedNote = searchView.query.toString().trim().ifBlank { null }
+        val minAmount = jumlahMinEditText.text.toString().toDoubleOrNull()
+        val maxAmount = jumlahMaxEditText.text.toString().toDoubleOrNull()
+        val startDate = parseDate(tanggalTextView.text.toString())
+        val endDate = parseDate(tanggalSampaiTextView.text.toString())
+
         lifecycleScope.launch {
             val pemasukanList = withContext(Dispatchers.IO) {
-                pemasukanDao.searchByCategory(category)
+                pemasukanDao.searchTransactions(
+                    kategori = selectedCategory,
+                    catatan = selectedNote,
+                    minJumlah = minAmount,
+                    maxJumlah = maxAmount,
+                    startDate = startDate,
+                    endDate = endDate
+                )
             }
             val pengeluaranList = withContext(Dispatchers.IO) {
-                pengeluaranDao.searchByCategory(category)
+                pengeluaranDao.searchTransactions(
+                    kategori = selectedCategory,
+                    catatan = selectedNote,
+                    minJumlah = minAmount,
+                    maxJumlah = maxAmount,
+                    startDate = startDate,
+                    endDate = endDate
+                )
             }
 
             val combinedList = pemasukanList + pengeluaranList
@@ -116,31 +161,15 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun searchTransactionsByNoteOrCategory(query: String) {
-        lifecycleScope.launch {
-            val pemasukanList = withContext(Dispatchers.IO) {
-                pemasukanDao.searchByNoteOrCategory(query)
+    private fun parseDate(dateStr: String): Date? {
+        return if (dateStr.isNotEmpty() && dateStr != "Date Start" && dateStr != "Date End") {
+            try {
+                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(dateStr)
+            } catch (e: ParseException) {
+                null
             }
-            val pengeluaranList = withContext(Dispatchers.IO) {
-                pengeluaranDao.searchByNoteOrCategory(query)
-            }
-
-            val combinedList = pemasukanList + pengeluaranList
-            updateRecyclerView(combinedList)
-        }
-    }
-
-    private fun searchTransactionsByCategoryAndNote(category: String, note: String) {
-        lifecycleScope.launch {
-            val pemasukanList = withContext(Dispatchers.IO) {
-                pemasukanDao.searchByCategoryAndNote(category, note)
-            }
-            val pengeluaranList = withContext(Dispatchers.IO) {
-                pengeluaranDao.searchByCategoryAndNote(category, note)
-            }
-
-            val combinedList = pemasukanList + pengeluaranList
-            updateRecyclerView(combinedList)
+        } else {
+            null
         }
     }
 
