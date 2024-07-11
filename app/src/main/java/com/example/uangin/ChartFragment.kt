@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.uangin.database.AppDatabase
@@ -111,10 +112,10 @@ class ChartFragment : Fragment() {
                     Color.parseColor("#D4DBFF"),
                 )
 
-                val dataSet = PieDataSet(entries, "Data Transaksi")
+                val dataSet = PieDataSet(entries, " ")
                 dataSet.colors = customColors
                 dataSet.valueTextColor = Color.WHITE
-                dataSet.valueTextSize = 12f
+                dataSet.valueTextSize = 15f
 
                 val pieData = PieData(dataSet)
                 withContext(Dispatchers.Main) {
@@ -124,6 +125,12 @@ class ChartFragment : Fragment() {
                     pieChart.setEntryLabelColor(Color.WHITE)
                     pieChart.animateY(1000)
                     pieChart.invalidate()
+
+                    val typeface = context?.let { ResourcesCompat.getFont(it, R.font.inter_regular) }
+
+                    // Apply custom font to entry labels
+                    pieChart.setEntryLabelTypeface(typeface)
+                    pieChart.setCenterTextTypeface(typeface)
 
                     // Hitung dan tampilkan total
                     val total = entries.sumOf { it.value.toDouble() }

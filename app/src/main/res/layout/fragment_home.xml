@@ -47,7 +47,7 @@
                 android:padding="10dp"
                 android:text="Semua Catatan"
                 android:textColor="@android:color/white"
-                android:textSize="23sp" />
+                android:textSize="20sp" />
 
             <ImageButton
                 android:id="@+id/buttonMenu"
@@ -102,7 +102,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:text="Pemasukan"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/textPemasukan"
@@ -111,7 +111,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:text="Rp 0"
                         android:textColor="@color/greenIncome"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <View
@@ -132,7 +132,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:text="Pengeluaran"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/textPengeluaran"
@@ -141,7 +141,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:text="Rp 0"
                         android:textColor="@color/redOutcome"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <View
@@ -162,7 +162,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:text="Saldo"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/textSaldo"
@@ -171,7 +171,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:text="Rp 0"
                         android:textColor="#777272"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
             </LinearLayout>

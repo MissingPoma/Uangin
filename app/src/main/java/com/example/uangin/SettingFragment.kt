@@ -1,3 +1,5 @@
+package com.example.uangin
+
 import android.Manifest
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -9,9 +11,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,12 +80,16 @@ class SettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+        val savedTime = sharedPreferences.getString("notif_time", "12:00")
+        val (hour, minute) = savedTime!!.split(":").map { it.toInt() }
         val rightArrowCetak = view.findViewById<ImageButton>(R.id.rightArrowCetak)
         val rightArrowKelola = view.findViewById<ImageButton>(R.id.rightArrowKelola)
         val righArrowSetel = view.findViewById<ImageButton>(R.id.righArrowSetel)
         tvNotifTime = view.findViewById(R.id.tvNotifTime)
         switchNotif = view.findViewById(R.id.switchNotif)
-        sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
 
         switchNotif.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -141,51 +151,126 @@ class SettingFragment : Fragment() {
             .setNegativeButton("Batal", null)
             .show()
     }
-
     private fun printData(listPemasukan: List<Pemasukan>, listPengeluaran: List<Pengeluaran>) {
         lifecycleScope.launch {
             try {
-                val timeStamp = SimpleDateFormat("dd-MM-yyyy_HH-mm-ss", Locale.getDefault()).format(Date())
+                val timeStamp = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
                 val fileName = "Laporan_UangIn_$timeStamp.pdf"
 
-                val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                val pdfFile = File(storageDir, fileName)
+                // Create a new PdfDocument
+                val pdfDocument = PdfDocument()
+                val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create() // A4 size page
 
-                val outputStream = FileOutputStream(pdfFile)
-                outputStream.use { stream ->
-                    stream.write("Laporan UangIn\n\n".toByteArray())
+                // Start a new page
+                val page = pdfDocument.startPage(pageInfo)
+                val canvas = page.canvas
+                val paint = Paint()
 
-                    if (listPemasukan.isNotEmpty()) {
-                        stream.write("=== Pemasukan ===\n".toByteArray())
-                        for (pemasukan in listPemasukan) {
-                            val line = "${pemasukan.tanggal} | ${pemasukan.kategori} | ${pemasukan.jumlah} | ${pemasukan.catatan}\n"
-                            stream.write(line.toByteArray())
-                        }
-                        stream.write("\n".toByteArray())
+                // Set up table headers
+                val tableHeaderBackground = Paint()
+                tableHeaderBackground.color = Color.parseColor("#CCCCCC")
+                tableHeaderBackground.style = Paint.Style.FILL
+
+                val tableHeaderPaint = Paint()
+                tableHeaderPaint.color = Color.BLACK
+                tableHeaderPaint.textSize = 12f
+
+                val tableContentPaint = Paint()
+                tableContentPaint.color = Color.BLACK
+                tableContentPaint.textSize = 12f
+
+                val tableMarginLeft = 40f
+                val tableMarginTop = 80f
+                val cellMargin = 10f
+                val rowHeight = 40f
+
+                // Draw headers
+                var xPos = tableMarginLeft
+                var yPos = tableMarginTop
+
+                canvas.drawRect(tableMarginLeft, yPos, page.info.pageWidth.toFloat() - tableMarginLeft, yPos + rowHeight, tableHeaderBackground)
+
+                canvas.drawText("Tanggal", xPos, yPos + rowHeight / 2, tableHeaderPaint)
+                xPos += 120f + cellMargin
+                canvas.drawText("Kategori", xPos, yPos + rowHeight / 2, tableHeaderPaint)
+                xPos += 180f + cellMargin
+                canvas.drawText("Jumlah", xPos, yPos + rowHeight / 2, tableHeaderPaint)
+                xPos += 120f + cellMargin
+                canvas.drawText("Catatan", xPos, yPos + rowHeight / 2, tableHeaderPaint)
+                xPos += 120f + cellMargin
+                canvas.drawText("Jenis", xPos, yPos + rowHeight / 2, tableHeaderPaint)
+                yPos += rowHeight
+
+                // Draw pemasukan data
+                if (listPemasukan.isNotEmpty()) {
+                    for (pemasukan in listPemasukan) {
+                        xPos = tableMarginLeft
+                        canvas.drawRect(tableMarginLeft, yPos, page.info.pageWidth.toFloat() - tableMarginLeft, yPos + rowHeight, tableHeaderBackground)
+
+                        val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(pemasukan.tanggal)
+                        Log.d("DEBUG", "Formatted Date: $formattedDate")
+                        canvas.drawText(formattedDate, xPos, yPos + rowHeight / 2, tableContentPaint)
+                        xPos += 120f + cellMargin
+                        pemasukan.kategori?.let { canvas.drawText(it, xPos, yPos + rowHeight / 2, tableContentPaint) }
+                        xPos += 180f + cellMargin
+
+                        // Set color to green for pemasukan
+                        tableContentPaint.color = Color.GREEN
+                        canvas.drawText("${pemasukan.jumlah}", xPos, yPos + rowHeight / 2, tableContentPaint)
+
+                        // Reset color back to black
+                        tableContentPaint.color = Color.BLACK
+                        xPos += 120f + cellMargin
+                        pemasukan.catatan?.let { canvas.drawText(it, xPos, yPos + rowHeight / 2, tableContentPaint) }
+                        xPos += 120f + cellMargin
+                        canvas.drawText("Pemasukan", xPos, yPos + rowHeight / 2, tableContentPaint)
+                        yPos += rowHeight
                     }
-
-                    if (listPengeluaran.isNotEmpty()) {
-                        stream.write("=== Pengeluaran ===\n".toByteArray())
-                        for (pengeluaran in listPengeluaran) {
-                            val line = "${pengeluaran.tanggal} | ${pengeluaran.kategori} | ${pengeluaran.jumlah} | ${pengeluaran.catatan}\n"
-                            stream.write(line.toByteArray())
-                        }
-                        stream.write("\n".toByteArray())
-                    }
-
-                    stream.flush()
                 }
 
-                Toast.makeText(context, "Data berhasil dicetak dan disimpan di ${pdfFile.absolutePath}", Toast.LENGTH_LONG).show()
+                // Draw pengeluaran data
+                if (listPengeluaran.isNotEmpty()) {
+                    for (pengeluaran in listPengeluaran) {
+                        xPos = tableMarginLeft
+                        canvas.drawRect(tableMarginLeft, yPos, page.info.pageWidth.toFloat() - tableMarginLeft, yPos + rowHeight, tableHeaderBackground)
+
+                        val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(pengeluaran.tanggal)
+                        canvas.drawText(formattedDate, xPos, yPos + rowHeight / 2, tableContentPaint)
+                        xPos += 120f + cellMargin
+                        pengeluaran.kategori?.let { canvas.drawText(it, xPos, yPos + rowHeight / 2, tableContentPaint) }
+                        xPos += 180f + cellMargin
+
+                        // Set color to red for pengeluaran
+                        tableContentPaint.color = Color.RED
+                        canvas.drawText("${pengeluaran.jumlah}", xPos, yPos + rowHeight / 2, tableContentPaint)
+
+                        // Reset color back to black
+                        tableContentPaint.color = Color.BLACK
+                        xPos += 120f + cellMargin
+                        pengeluaran.catatan?.let { canvas.drawText(it, xPos, yPos + rowHeight / 2, tableContentPaint) }
+                        xPos += 120f + cellMargin
+                        canvas.drawText("Pengeluaran", xPos, yPos + rowHeight / 2, tableContentPaint)
+                        yPos += rowHeight
+                    }
+                }
+
+                // Finish the page
+                pdfDocument.finishPage(page)
+
+                // Save the document
+                val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
+                val outputStream = FileOutputStream(file)
+                pdfDocument.writeTo(outputStream)
+                pdfDocument.close()
+
+                Toast.makeText(context, "Data berhasil dicetak dan disimpan di ${file.absolutePath}", Toast.LENGTH_LONG).show()
+
             } catch (e: Exception) {
                 Toast.makeText(context, "Terjadi kesalahan saat mencetak data", Toast.LENGTH_SHORT).show()
                 e.printStackTrace()
             }
         }
     }
-
-
-
 
 
     private fun cancelScheduledNotification() {
@@ -199,8 +284,9 @@ class SettingFragment : Fragment() {
         val timePickerDialog = TimePickerDialog(
             requireContext(),
             { _: TimePicker, hourOfDay: Int, minute: Int ->
-                tvNotifTime.text = String.format("%02d:%02d", hourOfDay, minute)
-                sharedPreferences.edit().putString("notif_time", String.format("%02d:%02d", hourOfDay, minute)).apply()
+                val timeString = String.format("%02d:%02d", hourOfDay, minute)
+                tvNotifTime.text = timeString
+                sharedPreferences.edit().putString("notif_time", timeString).apply() // Menggunakan apply() untuk menyimpan perubahan
                 scheduleNotification(hourOfDay, minute)
             },
             12, 0, true
