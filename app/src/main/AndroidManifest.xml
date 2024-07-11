@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Uangin"
         tools:targetApi="31">
         <activity
+            android:name=".ChangeOrDisablePinActivity"
+            android:exported="false" />
+        <activity
             android:name=".ConfirmPinActivity"
             android:exported="false" />
         <activity

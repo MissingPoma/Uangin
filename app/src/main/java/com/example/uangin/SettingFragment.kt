@@ -60,7 +60,10 @@ class SettingFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var tvNotifTime: TextView
     private lateinit var switchNotif: Switch
+    private lateinit var rightArrowPin: ImageButton
+    private lateinit var tvPin: TextView
     private var notificationPendingIntent: PendingIntent? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +92,20 @@ class SettingFragment : Fragment() {
         val righArrowSetel = view.findViewById<ImageButton>(R.id.righArrowSetel)
         tvNotifTime = view.findViewById(R.id.tvNotifTime)
         switchNotif = view.findViewById(R.id.switchNotif)
+        tvPin = view.findViewById(R.id.tvPin)
+        updatePinStatus()
+        rightArrowPin = view.findViewById(R.id.rightArrowPin) // Inisialisasi
+        rightArrowPin.setOnClickListener {
+            val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            val isPinSet = sharedPreferences.contains("app_pin")
 
+            val intent = if (isPinSet) {
+                Intent(requireContext(), ChangeOrDisablePinActivity::class.java) // Activity baru untuk mengubah/menonaktifkan PIN
+            } else {
+                Intent(requireContext(), SetPinActivity::class.java)
+            }
+            startActivity(intent)
+        }
 
         switchNotif.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -126,6 +142,12 @@ class SettingFragment : Fragment() {
         }
     }
 
+    private fun updatePinStatus() {
+        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val isPinSet = sharedPreferences.contains("app_pin")
+
+        tvPin.text = if (isPinSet) "Aktif" else "Tidak aktif"
+    }
 
     private fun showPrintConfirmationDialog() {
         MaterialAlertDialogBuilder(requireContext())
@@ -382,6 +404,11 @@ class SettingFragment : Fragment() {
             }
             .setNegativeButton("Batal", null)
             .show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updatePinStatus() // Perbarui status PIN saat fragment kembali aktif
     }
 
     private fun resetData() {
