@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.uangin.database.entity.Pengeluaran
+import java.util.Date
 
 @Dao
 interface PengeluaranDao {
@@ -53,4 +54,22 @@ interface PengeluaranDao {
 
     @Query("SELECT * FROM pengeluaran WHERE catatan LIKE '%' || :query || '%' OR kategori LIKE :query")
     suspend fun searchByNoteOrCategory(query: String): List<Pengeluaran>
+
+    @Query("""
+        SELECT * FROM Pengeluaran WHERE
+        (:kategori IS NULL OR kategori LIKE '%' || :kategori || '%') AND
+        (:catatan IS NULL OR catatan LIKE '%' || :catatan || '%') AND
+        (:minJumlah IS NULL OR jumlah >= :minJumlah) AND
+        (:maxJumlah IS NULL OR jumlah <= :maxJumlah) AND
+        (:startDate IS NULL OR tanggal >= :startDate) AND
+        (:endDate IS NULL OR tanggal <= :endDate)
+    """)
+    suspend fun searchTransactions(
+        kategori: String?,
+        catatan: String?,
+        minJumlah: Double?,
+        maxJumlah: Double?,
+        startDate: Date?,
+        endDate: Date?
+    ): List<Pengeluaran>
 }
