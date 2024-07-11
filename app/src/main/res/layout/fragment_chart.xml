@@ -130,6 +130,15 @@
                 android:text="Rp 4.324.304"
                 android:textSize="18sp" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3500dp"/>
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

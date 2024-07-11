@@ -94,56 +94,7 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="362dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#E5E5E5"
-                    android:layout_gravity="center_horizontal"   />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="Mata Uang"
-                            android:textColor="@color/black"
-                            android:textSize="14dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="IDR"
-                            android:textColor="@color/gray"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageButton
-                            android:id="@+id/rightArrowCurren"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/vector_right_black"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:padding="10dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_alignParentEnd="true" /> <!-- Atur agar ImageButton di kanan -->
-
-                    </RelativeLayout>
-                </LinearLayout>
                 <View
                     android:layout_width="362dp"
                     android:layout_height="1dp"
@@ -264,43 +215,6 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginLeft="25dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="13dp">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center_vertical">
-                        <TextView
-                            android:layout_marginTop="7dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Backup data"
-                            android:fontFamily="@font/inter_medium"
-                            android:textColor="@color/black"
-                            android:textSize="14dp" />
-
-                    </LinearLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageButton
-                            android:id="@+id/rightArrowBackup"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/vector_right_black"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:padding="10dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_alignParentEnd="true" /> <!-- Atur agar ImageButton di kanan -->
-
-                    </RelativeLayout>
-                </LinearLayout>
 
                 <View
                     android:layout_width="362dp"
