@@ -33,14 +33,11 @@
             android:name=".ChartActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false"/>
 
         <activity android:name=".AddActivity" />
-        <activity android:name=".SettingActivity" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -51,7 +48,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".SettingFragment$NotificationReceiver" />
+
     </application>
 
 </manifest>
